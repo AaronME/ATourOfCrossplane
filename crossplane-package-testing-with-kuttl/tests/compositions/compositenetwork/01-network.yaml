@@ -1,0 +1,7 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestStep
+commands:
+  # Wait for XRD to become "established"
+  - command: kubectl wait --for condition=established --timeout=20s xrd/compositenetworks.aws.platformref.crossplane.io
+  # Create the XR/Claim
+  - command: kubectl apply -f "${PWD}/examples/network.yaml"

@@ -1,0 +1,7 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestStep
+commands:
+  # Install the XRD
+  - command: kubectl apply -f "${PWD}/package/network/definition.yaml"
+  # Install the Composition
+  - command: kubectl apply -f "${PWD}/package/network/composition.yaml"
