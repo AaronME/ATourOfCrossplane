@@ -1,0 +1,52 @@
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  labels:
+    access: private
+    crossplane.io/claim-name: network
+    networks.aws.platformref.crossplane.io/network-id: platform-ref-aws-network
+    zone: us-west-2a
+spec:
+  forProvider:
+    region: us-west-2
+    cidrBlock: 192.168.128.0/18
+    vpcIdSelector:
+      matchControllerRef: true
+    availabilityZone: us-west-2a
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  labels:
+    access: public
+    crossplane.io/claim-name: network
+    networks.aws.platformref.crossplane.io/network-id: platform-ref-aws-network
+    zone: us-west-2a
+spec:
+  forProvider:
+    region: us-west-2
+    mapPublicIPOnLaunch: true
+    cidrBlock: 192.168.0.0/18
+    vpcIdSelector:
+      matchControllerRef: true
+    availabilityZone: us-west-2a
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: VPC
+metadata:
+  labels:
+    crossplane.io/claim-name: network
+    networks.aws.platformref.crossplane.io/network-id: platform-ref-aws-network
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    region: us-west-2
+    cidrBlock: 192.168.0.0/16
+    enableDnsSupport: true
+    enableDnsHostNames: true
+    tags:
+      - key: crossplane-kind
+        value: vpc.ec2.aws.crossplane.io
+      - key: crossplane-name
+      - key: crossplane-providerconfig

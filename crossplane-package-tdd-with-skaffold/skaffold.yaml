@@ -1,0 +1,38 @@
+apiVersion: skaffold/v2beta24
+kind: Config
+deploy:
+  helm:
+    hooks:
+      after:
+        - host:
+            command:
+              [
+                "sh",
+                "-c",
+                "kubectl wait --for condition=healthy --timeout=300s provider/crossplane-provider-aws",
+              ]
+    releases:
+      - name: universal-crossplane
+        repo: https://charts.upbound.io/stable/
+        remoteChart: universal-crossplane
+        namespace: upbound-system
+        createNamespace: true
+        valuesFiles:
+          - tests/uxp-values.yaml
+        version: 1.5.1-up.1
+        wait: true
+  kubectl:
+    hooks:
+      after:
+        - host:
+            command:
+              [
+                "sh",
+                "-c",
+                "kubectl kuttl test --test ./tests/compositions/compositenetwork/; exit 0",
+              ]
+    manifests:
+      - package/network/definition.yaml
+      - package/network/composition.yaml
+      # - examples/network.yaml
+

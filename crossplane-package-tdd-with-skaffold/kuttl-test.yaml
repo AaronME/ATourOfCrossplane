@@ -1,0 +1,7 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestSuite
+startKIND: false
+testDirs:
+- tests/compositions
+kindContext: kuttl-test
+skipClusterDelete: true
