@@ -1,6 +1,4 @@
-provider:
-  packages:
-    - registry.upbound.io/crossplane/provider-aws:v0.19.0
+---
 configuration:
   packages:
     - registry.upbound.io/upbound/platform-ref-aws:v0.2.1
