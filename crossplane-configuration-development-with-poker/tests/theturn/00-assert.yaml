@@ -1,0 +1,30 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestAssert
+timeout: 30
+
+---
+apiVersion: providercards.aaroneaton.com/v1alpha1
+kind: Card
+metadata:
+  name: tour-turn-burn
+spec:
+  forProvider: {}
+  providerConfigRef:
+    name: tour
+
+---
+apiVersion: providercards.aaroneaton.com/v1alpha1
+kind: Card
+metadata:
+  name: tour-turn-01
+spec:
+  forProvider: {}
+  providerConfigRef:
+    name: tour
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: turn-cards
+type: connection.crossplane.io/v1alpha1

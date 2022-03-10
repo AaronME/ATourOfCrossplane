@@ -1,0 +1,5 @@
+provider:
+  packages:
+    - registry.upbound.io/aaroneaton/provider-cards:v0.0.1
+args:
+  - '-d'

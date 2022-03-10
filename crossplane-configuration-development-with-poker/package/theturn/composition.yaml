@@ -1,0 +1,43 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: theturn-composition
+spec:
+  writeConnectionSecretsToNamespace: upbound-system
+  compositeTypeRef:
+    apiVersion: cardgames.aaroneaton.com/v1alpha1
+    kind: TheTurn
+  resources:
+    - base:
+        apiVersion: providercards.aaroneaton.com/v1alpha1
+        kind: Card
+        spec:
+          forProvider: {}
+      # this burned card is _not_ added to the connectionSecrets
+      patches:
+        - fromFieldPath: spec.tableName
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-turn-burn"
+          toFieldPath: metadata.name
+        - fromFieldPath: spec.tableName
+          toFieldPath: spec.providerConfigRef.name
+    - base:
+        apiVersion: providercards.aaroneaton.com/v1alpha1
+        kind: Card
+        spec:
+          forProvider: {}
+      connectionDetails:
+        - type: FromFieldPath
+          name: "01"
+          fromFieldPath: status.atProvider.face
+      patches:
+        - fromFieldPath: spec.tableName
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-turn-01"
+          toFieldPath: metadata.name
+        - fromFieldPath: spec.tableName
+          toFieldPath: spec.providerConfigRef.name

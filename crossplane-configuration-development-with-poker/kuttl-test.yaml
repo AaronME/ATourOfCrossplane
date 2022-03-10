@@ -1,0 +1,13 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestSuite
+commands:
+  # Install Univerasal Crossplane (uxp).
+  - command: helm install universal-crossplane https://charts.upbound.io/stable/universal-crossplane-1.6.3-up.1.tgz --namespace upbound-system --wait --create-namespace --values tests/uxp-values.yaml
+  # Wait for provider-cards to become healthy.
+  - command: kubectl wait --for condition=healthy  --timeout=300s provider/aaroneaton-provider-cards
+  # Set up a table for play
+  - command: kubectl apply -f "${PWD}/tests/init.yaml"
+testDirs:
+  - tests/
+kindContext: kuttl-test
+startKIND: true

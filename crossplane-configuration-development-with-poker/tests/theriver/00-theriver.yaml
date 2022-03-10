@@ -1,0 +1,16 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestStep
+commands:
+  # Install XRDs
+  - command: kubectl apply -f "${PWD}/package/theriver/"
+  # Wait for XRD to become "established"
+  - command: kubectl wait --for condition=established --timeout=20s xrd/therivers.cardgames.aaroneaton.com
+---
+apiVersion: cardgames.aaroneaton.com/v1alpha1
+kind: DealTheRiver
+metadata:
+  name: tour
+spec:
+  tableName: tour
+  writeConnectionSecretToRef:
+    name: river-cards

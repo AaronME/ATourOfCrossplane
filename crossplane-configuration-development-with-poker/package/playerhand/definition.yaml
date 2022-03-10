@@ -1,0 +1,35 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: playerhands.cardgames.aaroneaton.com
+spec:
+  claimNames:
+    kind: DealMeIn
+    plural: dealmeins
+  group: cardgames.aaroneaton.com
+  names:
+    kind: PlayerHand
+    plural: playerhands
+  connectionSecretKeys:
+    - "01"
+    - "02"
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                playerName:
+                  type: string
+                  description: Name of Player holding this Hand
+                tableName:
+                  type: string
+                  description: Name of Table for this Hand
+              required:
+                - playerName
+                - tableName

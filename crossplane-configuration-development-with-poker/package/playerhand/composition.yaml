@@ -1,0 +1,50 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: poker-composition
+spec:
+  writeConnectionSecretsToNamespace: upbound-system
+  compositeTypeRef:
+    apiVersion: cardgames.aaroneaton.com/v1alpha1
+    kind: PlayerHand
+  resources:
+    - base:
+        apiVersion: providercards.aaroneaton.com/v1alpha1
+        kind: Card
+        metadata:
+          name: playerone-01
+        spec:
+          forProvider: {}
+          providerConfigRef:
+            name: tour
+      connectionDetails:
+        - type: FromFieldPath
+          name: "01"
+          fromFieldPath: status.atProvider.face
+      patches:
+        - fromFieldPath: spec.playerName
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-01"
+          toFieldPath: metadata.name
+        - fromFieldPath: spec.tableName
+          toFieldPath: spec.providerConfigRef.name
+    - base:
+        apiVersion: providercards.aaroneaton.com/v1alpha1
+        kind: Card
+        spec:
+          forProvider: {}
+      connectionDetails:
+        - type: FromFieldPath
+          name: "02"
+          fromFieldPath: status.atProvider.face
+      patches:
+        - fromFieldPath: spec.playerName
+          transforms:
+            - type: string
+              string:
+                fmt: "%s-02"
+          toFieldPath: metadata.name
+        - fromFieldPath: spec.tableName
+          toFieldPath: spec.providerConfigRef.name

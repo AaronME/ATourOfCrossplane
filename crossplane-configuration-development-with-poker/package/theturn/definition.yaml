@@ -1,0 +1,30 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: theturns.cardgames.aaroneaton.com
+spec:
+  claimNames:
+    kind: DealTheTurn
+    plural: dealtheturns
+  group: cardgames.aaroneaton.com
+  names:
+    kind: TheTurn
+    plural: theturns
+  connectionSecretKeys:
+    - "01"
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                tableName:
+                  type: string
+                  description: Name of Table for this Turn
+              required:
+                - tableName

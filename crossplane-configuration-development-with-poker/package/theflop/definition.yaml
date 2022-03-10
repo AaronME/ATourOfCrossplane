@@ -1,0 +1,32 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: theflops.cardgames.aaroneaton.com
+spec:
+  claimNames:
+    kind: DealTheFlop
+    plural: dealtheflops
+  group: cardgames.aaroneaton.com
+  names:
+    kind: TheFlop
+    plural: theflops
+  connectionSecretKeys:
+    - "01"
+    - "02"
+    - "03"
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                tableName:
+                  type: string
+                  description: Name of Table for this Flop
+              required:
+                - tableName

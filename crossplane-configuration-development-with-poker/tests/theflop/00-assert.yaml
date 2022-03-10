@@ -1,0 +1,50 @@
+apiVersion: kuttl.dev/v1beta1
+kind: TestAssert
+timeout: 30
+
+---
+apiVersion: providercards.aaroneaton.com/v1alpha1
+kind: Card
+metadata:
+  name: tour-flop-burn
+spec:
+  forProvider: {}
+  providerConfigRef:
+    name: tour
+
+---
+apiVersion: providercards.aaroneaton.com/v1alpha1
+kind: Card
+metadata:
+  name: tour-flop-01
+spec:
+  forProvider: {}
+  providerConfigRef:
+    name: tour
+
+---
+apiVersion: providercards.aaroneaton.com/v1alpha1
+kind: Card
+metadata:
+  name: tour-flop-02
+spec:
+  forProvider: {}
+  providerConfigRef:
+    name: tour
+
+---
+apiVersion: providercards.aaroneaton.com/v1alpha1
+kind: Card
+metadata:
+  name: tour-flop-03
+spec:
+  forProvider: {}
+  providerConfigRef:
+    name: tour
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: flop-cards
+type: connection.crossplane.io/v1alpha1
